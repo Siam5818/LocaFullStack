@@ -1,0 +1,12 @@
+/* cspell:disable */
+interface ErrorMessageProps {
+  message?: string;
+}
+
+export function ErrorMessage({ message = 'Une erreur est survenue.' }: Readonly<ErrorMessageProps>) {
+  return (
+    <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+      {message}
+    </div>
+  );
+}
