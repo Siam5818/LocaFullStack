@@ -1,0 +1,44 @@
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: location_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: location
+      POSTGRES_USER: location_user
+      POSTGRES_PASSWORD: passer098
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U location_user -d location"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: location_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@location.local
+      PGADMIN_DEFAULT_PASSWORD: passer098
+    ports:
+      - "8082:80"
+    depends_on:
+      - postgres
+    profiles:
+      - dev
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: location_mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  postgres_data:
