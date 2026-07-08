@@ -1,5 +1,6 @@
 # Docker
 .env
+.env.prod
 
 # IDE
 .idea/
